@@ -1,0 +1,44 @@
+
+name: Publicar pagina en CloudFront
+
+on:
+  push:
+    branches:
+      - hw-04
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build con Vite
+        run: npm run build
+
+      - name: Configurar AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::804894555426:role/GitHubActions-CDN-Diego
+          aws-region: us-east-2
+
+      - name: Upload a S3
+        run: aws s3 sync dist/ s3://mi-pagina-cdn-diego-2026/ --delete
+
+      - name: Invalidar cache de CloudFront
+        run: aws cloudfront create-invalidation --distribution-id E38Y14COFT6DBP --paths "/*"
