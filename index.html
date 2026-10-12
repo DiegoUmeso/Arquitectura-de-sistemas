@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi primera página CDN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #101827;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        button {
+            background-color: #38bdf8;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Bienvenido a mi primera página web!</h1>
+    <h2>Proyecto de Arquitectura de Sistemas</h2>
+
+    <p>Esta página fue creada utilizando Vite y JavaScript.</p>
+    <p>Próximamente estará publicada en AWS CloudFront.</p>
+
+    <button onclick="saludar()">Haz clic aquí</button>
+
+    <script type="module">
+        window.saludar = function() {
+            alert("¡Hola! Mi página funciona correctamente.");
+        };
+    </script>
+</body>
+</html>
