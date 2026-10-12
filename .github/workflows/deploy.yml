@@ -30,6 +30,36 @@ jobs:
 
       - name: Build con Vite
         run: npm run build
+      
+      
+      - name: Verificar identidad OIDC
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import os
+          import json
+          import base64
+          import urllib.request
+
+          url = os.environ["ACTIONS_ID_TOKEN_REQUEST_URL"]
+          url += "&audience=sts.amazonaws.com"
+
+          req = urllib.request.Request(url)
+          req.add_header(
+              "Authorization",
+              "Bearer " + os.environ["ACTIONS_ID_TOKEN_REQUEST_TOKEN"]
+          )
+
+          with urllib.request.urlopen(req) as response:
+              token = json.load(response)["value"]
+
+          payload = token.split(".")[1]
+          payload += "=" * (-len(payload) % 4)
+          claims = json.loads(base64.urlsafe_b64decode(payload))
+
+          print("Subject:", claims.get("sub"))
+          print("Audience:", claims.get("aud"))
+          PY
 
       - name: Configurar AWS
         uses: aws-actions/configure-aws-credentials@v4
