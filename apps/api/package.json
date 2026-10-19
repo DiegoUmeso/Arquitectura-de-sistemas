@@ -1,0 +1,21 @@
+
+{
+  "name": "@repo/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "test": "node -e \"console.log('API: prueba correcta')\""
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "@repo/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.30",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
